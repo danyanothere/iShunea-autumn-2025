@@ -3,48 +3,38 @@
 import Image from 'next/image';
 import CustomButton from './CustomButton';
 
- 
 const Hero = () => {
-    const handleScroll = () => {
+  const handleScroll = () => {
+   
+  }
 
-    }
-   return (
+  return (
     <div className="hero">
-      <div className="flex-1 pt-36 padding-x">
+      <div className="flex-1 padding-x">
         <h1 className="hero__title">
-            Твое авто ждет: найди, забронируй, наслаждайся поездкой!
-          </h1>
+          Find, book, rent a car—quick and super easy!
+        </h1>
 
-           <p className="hero__subtitle">
-            Забронируй и рули: весь процесс за пару минут.
-          </p>
+        <p className="hero__subtitle">
+          Streamline your car rental experience with our effortless booking process.
+        </p>
 
-          <CustomButton 
-           title='Смотреть авто'
-           containerStyles="bg-primary-blue text-white rounded-full mt-10"
-           handleClick={handleScroll} btnType={'button'}          />
+        <CustomButton
+          title="Explore Cars"
+          containerStyles="custom-btn mt-10"
+          handleClick={handleScroll}
+        />
+      </div>
+      
+      <div className="hero__image-container">
+        <div className="hero__image">
+          <Image src="/hero.png" alt="Modern car"
+            width={700}
+            height={500}/>
         </div>
-        
-          <div className='hero__image-container'>
-        <div className='hero__image'>
-         <Image 
-              src='/hero.png' 
-              alt='hero'
-              width={600}  // Фиксированная ширина
-              height={400} // Фиксированная высота
-              className='object-contain max-w-full max-h-full'
-              priority
-              style={{
-                width: 'auto',
-                height: 'auto',
-                maxWidth: '600px',
-                maxHeight: '400px'
-              }}
-            />
-          </div>
-        </div>
-     </div>
-   )
-}
- 
-export default Hero
+      </div>
+    </div>
+  );
+};
+
+export default Hero;

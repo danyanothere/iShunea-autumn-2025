@@ -1,7 +1,15 @@
 import { CarCard, CustomFilter, Hero, SearchBar } from "@/components";
 import { fetchCars } from "@/utils";
 
-export default async function Home() {
+interface PageProps {
+  searchParams?: {
+    manufacturer?: string;
+    fuel?: string;
+    year?: string;
+  };
+}
+
+export default async function Home({ searchParams = {} as PageProps["searchParams"] }: PageProps) {
   const allCars = await fetchCars(); 
 
   const isDataEmpty = !Array.isArray(allCars) || allCars.length < 1 || !allCars;
@@ -12,8 +20,8 @@ export default async function Home() {
 
         <div className="mt-12 padding-x padding-y max-width" id="discover">
           <div className="home__text-container">
-            <h1 className="text-4xl font-extrabold">Каталог автомобилей</h1>
-            <p className="text-gray-600 mt-2">Машины, которые вам точно понравятся</p>
+            <h1 className="text-4xl font-extrabold">Car Catalogue</h1>
+            <p className="text-gray-600 mt-2">Explore the cars you might like</p>
           </div>
 
           <div className="home__filters mt-8">
@@ -32,7 +40,27 @@ export default async function Home() {
           {!isDataEmpty ? (
             <section>
             <div className="home__cars-wrapper mt-10">
-              {allCars?.map((car, index) => (
+              {allCars
+                // filters
+                .filter((car) => {
+                  const m = searchParams?.manufacturer?.toLowerCase().trim();
+                  if (!m) return true;
+                  return (
+                    car.make.toLowerCase().includes(m) ||
+                    car.model.toLowerCase().includes(m)
+                  );
+                })
+                .filter((car) => {
+                  const f = searchParams?.fuel;
+                  if (!f) return true;
+                  return car.fuel_type.toLowerCase() === f.toLowerCase();
+                })
+                .filter((car) => {
+                  const y = searchParams?.year;
+                  if (!y) return true;
+                  return String(car.year) === y;
+                })
+                .map((car, index) => (
                 <CarCard key={`${car.make}-${car.model}-${car.year}-${index}`} car={car} />
               ))}
               
